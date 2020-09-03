@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Github Users List</title>
+    <style>
+    
+      header{
+        background-color:#c1b5ff;
+      }
+
+      h1{
+          padding-bottom:3%;
+          font-size: 400%;
+      }
+      h2{
+        padding-top:1%;
+		padding-bottom:1%;
+        background-color:#e88aff;
+        line-height: 10px;
+      }
+
+      button{
+        color:#000000;
+        font-size: 100%;
+        background-color:#ff0a0a;
+        border:3px solid #000000;
+      }
+ 
+      body{
+          margin:4%;
+          width:90%;
+          background-color:#875d7b;
+      }
+      #buttonInfo{
+        content-align:center;
+      }
+      li{
+        list-style:none;
+      }
+      #show{
+        margin:10%;
+      }
+      #view1{
+        border:2px solid blue;
+        margin-bottom:4%;
+        background-color: #87784d;
+      }
+      #view2{
+        display: inline-block;
+        background-color: #a8a8a8;
+        padding-right:10%;
+		padding-top:6%;
+        margin-bottom:5%;
+        margin-top:5%;
+        margin-left:5%;
+        margin-right:5%;
+        border:1px solid blue;
+      }
+      img{
+        margin-bottom:5%;
+        margin-top:5%;
+        margin-left:5%;
+        border:3px solid black;
+        margin-bottom:-12px;
+        padding:3px;
+      }
+  
+  
+     
+    
+   </style>
+  </head>
+  <body>
+    <header>
+	  <h2><button id="buttonInfo">Load Github Users</button>
+      <h1>Github Users</h1>
+       
+    </header>
+
+    <div id="show"></div>
+    <script>
+        document.getElementById("buttonInfo").addEventListener('click', onProcess);
+
+        function onProcess(){
+            var req = new XMLHttpRequest();
+            req.open('GET', 'https://api.github.com/users', true);
+            req.onload = function() {
+                if(req.status==200){
+                  var info = JSON.parse(req.responseText)
+                  var display= '';
+                  for(var i in info){
+                   display +=
+                   '<div id="view1">' +
+                   '<img src="'+info[i].avatar_url+'" width="20%">'+
+                   '<div id="view2"><ul>' +
+                   '<p><li>ID:'+info[i].id+'</li></p>' +
+                   '<p><li>Login:'+info[i].login+'</li></p>' +
+                   '<p><li>Repos: <a href="'+info[i].repos_url +'" target="_blank">'+info[i].repos_url +'</a></li></p>'+
+				   '<p><li>URL: <a href="'+info[i].url+'" target="_blank">'+info[i].url+'</a></li></p>' +
+                   '<p><li>Events_URL: <a href="'+info[i].events_url+'" target="_blank">'+info[i].events_url+'</a></li></p>' +
+                   '</ul></div>' +
+                   '</div>';
+                   document.getElementById('show').innerHTML = display;
+                   }
+
+                }
+
+            }
+            req.send();
+        }
+    </script>
+    
+  </body>
+</html>
